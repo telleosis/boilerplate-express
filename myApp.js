@@ -1,19 +1,22 @@
-require("dotenv").config();
 let express = require("express");
 let app = express();
+require("dotenv").config();
 
-app.get("/json", (req, res) => {
-  const simpleJSONObj = { message: "Hello json".toUpperCase() };
-
-  if (process.env.MESSAGE_STYLE === simpleJSONObj) {
-    simpleJSONObj = "Hello Json".toUpperCase();
-  } else {
-    return simpleJSONObj;
-  }
-  res.json(simpleJSONObj);
-});
+const mySecret = process.env.MESSAGE_STYLE;
 
 app.use("/public", express.static(__dirname + "/public"));
+
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/views/index.html");
+});
+
+app.get("/json", (req, res) => {
+  if (process.env.MESSAGE_STYLE === "uppercase") {
+    return res.json({ message: "HELLO JSON" });
+  } else {
+    return res.json({ message: "Hello json" });
+  }
+});
 
 module.exports = app;
 
