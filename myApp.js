@@ -59,13 +59,34 @@ app.post("/name", (req, res) => {
   let lastName = req.body.last;
 
   res.json({ name: `${firstName} ${lastName}` });
-}),
-  app.get("/name", (req, res) => {
-    let firstName = req.query.first;
-    let lastName = req.query.last;
+});
 
-    res.json({ name: `${firstName} ${lastName}` });
-  }),
+app.get("/name", (req, res) => {
+  let firstName = req.query.first;
+  let lastName = req.query.last;
+
+  res.json({ name: `${firstName} ${lastName}` });
+});
+
+/**
+ * Get Data from POST Requests
+ *
+ */
+app.post("/api/shorturl", (req, res) => {
+  function randomize(max) {
+    return Math.floor(Math.random() * max) + 1;
+  }
+  let longURL = req.body.url;
+  let shortURL = randomize(10);
+
+  if (shortURL === null) {
+    return console.error("error", "invalid url");
+  } else {
+    res.json({
+      original_url: +" " + `${longURL}` + " " + "shortURL : "`${shortURL}`,
+    });
+  }
+}),
   /** 
  * Send back a string
  * /
